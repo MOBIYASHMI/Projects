@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>EmployeeForm</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/Logo.jpg}" alt="Logo">
+                Employee Management
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/addNewEmployee}">Add New Employee</a></li>
+                <li><a th:href="@{/search}">Search Employee</a></li>
+                <li><a th:href="@{/documentation}">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <form action="#" th:action="@{/saveEmployee}" id="employeeform" th:object="${employee}" method="post">
+        <p ></p>
+        <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstname" name="firstName" placeholder="Enter first name">
+            <p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}"></p>
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastname" name="lastName" placeholder="Enter last name">
+            <p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Enter email">
+            <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+            <small style="color:red;" class="error" id="email-error"></small>
+        </div>
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" th:field="*{department}" class="form-control" id="department" name="department" placeholder="Enter department">
+            <p th:errors="*{department}" class="text-danger" th:if="${#fields.hasErrors('department')}"></p>
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" th:field="*{location}" class="form-control" id="location" name="location" placeholder="Enter location">
+            <p th:errors="*{location}" class="text-danger" th:if="${#fields.hasErrors('location')}"></p>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script>
+        document.getElementById('email').addEventListener('input', function () {
+            const emailInput = this.value;
+            const errorElement = document.getElementById('email-error');
+
+            const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            errorElement.textContent = '';
+
+            if (!emailPattern.test(emailInput)) {
+              errorElement.textContent = 'Email must be case-sensitive and in a valid format. Eg: user@gmail.com'';
+            }
+          });
+    </script>
+</div>
+
+</body>
+</html>

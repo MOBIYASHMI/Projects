@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+                <a class="navbar-brand" th:href="@{/}">
+                    <img th:src="@{/Logo.jpg}" alt="Logo">
+                    Employee Management
+                </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/addNewEmployee}">Add New Employee</a></li>
+                <li><a th:href="@{/search}">Search Employee</a></li>
+                <li><a th:href="@{/documentation}">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div th:if="${param.success}">
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+            <p>Employee details saved successfully!</p>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table border="1" class="table table-striped">
+            <thead>
+            <tr>
+                <td><strong>Id</strong></td>
+                <td><strong>First Name</strong></td>
+                <td><strong>Last Name</strong></td>
+                <td><strong>Email</strong></td>
+                <td><strong>Department</strong></td>
+                <td><strong>Location</strong></td>
+                <td><strong>Action</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee:${employeelist}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.email}"></td>
+                <td th:text="${employee.department}"></td>
+                <td th:text="${employee.location}"></td>
+                <td>
+                    <a th:href ="@{/view/{id}(id=${employee.id})}"
+                       class="btn btn-info">
+                        View
+                    </a>
+                    <a th:href="@{/showFormForUpdate/{email}(email=${employee.email})}"
+                       class="btn btn-warning">
+                        Update
+                    </a>
+                    <a th:href ="@{/deleteById/{id}(id=${employee.id})}"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

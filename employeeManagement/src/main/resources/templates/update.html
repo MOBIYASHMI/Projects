@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Saved</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/Logo.jpg}" alt="Logo">
+                Employee Management
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/addNewEmployee}">Add New Employee</a></li>
+                <li><a th:href="@{/search}">Search Employee</a></li>
+                <li><a th:href="@{/documentation}">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h1>Employee Management System</h1>
+    <hr>
+    <h2>Update Employee</h2>
+
+    <form action="#" th:action="@{/updateEmployee}" th:object="${updateEmployee}" method="post">
+
+        <!--            Add hidden field to handle the update employee, we will not show id field to user -->
+        <input type="hidden" th:field="*{id}" class="form-control mb-4 col-4" required>
+        <br>
+        <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4" required>
+        <br>
+        <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4" required>
+        <br>
+        <input type="text" id="email" th:field="*{email}" class="form-control mb-4 col-4" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+        <small style="color:red;" class="error" id="email-error"></small>
+        <br>
+        <input type="text" th:field="*{department}" class="form-control mb-4 col-4" required>
+        <br>
+        <input type="text" th:field="*{location}" class="form-control mb-4 col-4" required>
+        <br>
+        <button type="submit" class="btn btn-info col-2">Update Employee</button>
+    </form>
+    <script>
+        document.getElementById('email').addEventListener('input', function () {
+            const emailInput = this.value;
+            const errorElement = document.getElementById('email-error');
+
+            const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            errorElement.textContent = '';
+
+            if (!emailPattern.test(emailInput)) {
+              errorElement.textContent = 'Email must be case-sensitive and in a valid format. Eg: user@gmail.com';
+            }
+          });
+    </script>
+</div>
+
+</body>
+</html>

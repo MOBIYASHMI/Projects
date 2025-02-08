@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Navbar Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/Logo.jpg}" alt="Logo">
+                Employee Management
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/addNewEmployee}">Add New Employee</a></li>
+                <li><a th:href="@{/search}">Search Employee</a></li>
+                <li><a th:href="@{/documentation}">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container bg-success">
+    <div class="maven">
+        <h1 class="text-center">Employee Management application with Thymeleaf Framework</h1>
+        <h4>Maven Project</h4>
+        <ul>
+            <li>JDK 21</li>
+            <li>Spring Boot - 3.4.2</li>
+            <li>Jar packaging</li>
+        </ul>
+        <h4>EmployeeManagementApplication :</h4>
+        <p>Main Application with main class annotated with @SpringBootApplication to run the application.
+            And bean created for model mapper to be used.</p>
+
+        <h4>Dependencies added in pom.xml:</h4>
+        <ul>
+            <li>Spring data JPA</li>
+            <li>Thymeleaf</li>
+            <li>Spring Web</li>
+            <li>Spring Boot Dev tools</li>
+            <li>Lombok (Optional)</li>
+            <li>Spring Validation</li>
+            <li>Model Mapper</li>
+            <li>Swagger</li>
+        </ul>
+    </div>
+</div>
+<div class="container bg-warning">
+    <div class="controller">
+        <h1 class="text-center">Controller package</h1>
+        <h4>Controller class</h4>
+        <h5>1) Employee Controller</h5>
+        <p>EmployeeController class is responsible for handling HTTP requests related to employee operations.
+            It provides functionalities such as viewing, adding, updating, searching, and deleting employees.
+            Used @Controller to connect to the frontend.</p>
+        <h4>Annotations used:</h4>
+        <ul>
+            <li>@Controller</li>
+            <li>@RequestMapping - defined the index page API end point</li>
+            <li>@Autowired - used to inject EmployeeService class dependency</li>
+            <li>@GetMapping</li>
+            <li>@PostMapping</li>
+            <li>@Valid - to validate the form elements</li>
+            <li>@ModelAttribute</li>
+            <li>@PathVariable</li>
+        </ul>
+        <h5>API endpoints :</h5>
+        <ul style="list-style: square;">
+            <li>@GetMapping("/")
+                Collects employee list from database and displays it in index page. If the employee list is empty, it throws an exception which is defined in exception package
+                (EmployeeNotFoundException) and it passes the error to the UI.</li>
+            <li>@GetMapping("/addNewEmployee")
+                Provides an Employee form and adds the details to the model attribute "employee".
+            </li>
+            <li>@PostMapping("/saveEmployee")
+                Validates the employee form elements. Then checks for the existing employee with same email. If present throws an error to the UI "Email already exists". If not
+                then validates and saves the employee details in the list and redirects to index page with a success message in the UI.</li>
+            <li>@GetMapping("/search")
+                Provides an input field to search for a particular employee with firstname.</li>
+            <li>@GetMapping("/displayEmployee")
+                Searches for the given employee in the employee list. If present, redirects to search page and displays the employee or employee list. If not present, then it throws an error to the UI "Employee
+                not found" in the search page.</li>
+            <li>@GetMapping("/view/{id}")
+                Collects particular employee data using id through path variable and displays it on view page.</li>
+            <li>@GetMapping("/showFormForUpdate/{email}")
+                Provides update with employee details for modification. Validates the updated form elements and adds it to the model attribute.</li>
+            <li>@PostMapping("/updateEmployee")
+                Saves the updated employee details.</li>
+            <li>@GetMapping("/deleteById/{id}")
+                Deletes particular employee details from list using id through path variable and redirects to the employee list page.</li>
+            <li>@GetMapping("/documentation")
+                Redirects to the documentation page</li>
+        </ul>
+        <h5>2) MyController</h5>
+        <p>MyController is created for swagger dependency to test the API endpoints and document it.
+            Used @RestController to check the API end points in swagger. Requires JSON body.</p>
+        <h5>API endpoints</h5>
+        <ul style="list-style: square;">
+            <li>@GetMapping("/swagger") - displays employee list</li>
+            <li>@PostMapping("/swagger/saveEmployee") - employee details given as JSON</li>
+            <li>@GetMapping("/swagger/displayEmployee") - requires first name  as input.</li>
+            <li>@GetMapping("/swagger/view/{id}") - requires id as input</li>
+            <li>@GetMapping("/swagger/showFormForUpdate/{email}") - requires details as JSON </li>
+            <li>@GetMapping("/swagger/deleteById/{id}") - requires id as input</li>
+        </ul>
+    </div>
+</div>
+<div class="container bg-white">
+    <div class="dto">
+        <h1 class="text-center">DTO</h1>
+        <p>EmployeeDto: Provided required table headers annotated with required validation and validation messages.
+            Generated NoArgsConstructor, AllArgsConstructor, getters and setter.</p>
+    </div>
+</div>
+<div class="container bg-danger">
+    <div class="entity">
+        <h1 class="text-center">Entity</h1>
+        <p>Employee: Annotated with @Entity and @Table and table name. Provided required table headers with required column constraints.
+            Generated NoArgsConstructor, AllArgsConstructor, getters and setter.</p>
+    </div>
+</div>
+<div class="container bg-success">
+    <div class="exception">
+        <h1 class="text-center">Exception</h1>
+        <ol>
+            <li>EmployeeNotFoundException - handles employee list not found error if the list is empty.</li>
+            <li>GlobalExceptionHandler - Annotated with @ControllerAdvice used to handle exceptions across the application and each exception is annotated with @ExceptionHandler.</li>
+            <li>ResourceNotFoundException - handles particular employee details not found exception.</li>
+        </ol>
+    </div>
+</div>
+<div class="container bg-warning">
+    <div class="service">
+        <h1 class="text-center">Service</h1>
+        <ol>
+            <li>Service Interface - to provide abstract methods for the CRUD operations.</li>
+            <li>Service Implementation class - Annotated with @Service and implements Service Interface. This class is defined with logics for CRUD operation. Provides the logic and
+                repository is injected to perform database operations. Model mapper dependency is injected to convert dto to entity and vice versa.</li>
+        </ol>
+    </div>
+</div>
+<div class="container bg-danger">
+    <div class="repository">
+        <h1 class="text-center">Repository</h1>
+        <p>EmployeeRepository extends JpaRepository to define and manage the data model. Custom queries created for database operations.
+            Annotated with @Repository (Optional).</p>
+    </div>
+</div>
+<div class="container bg-light">
+    <div class="database">
+        <h1 class="text-center">Database Credentials</h1>
+        <p>Defined database connectivity credentials and sql trace details requirement in application.properties</p>
+    </div>
+</div>
+<div class="container bg-info">
+    <div class="resources">
+        <h1 class="text-center">Resources</h1>
+        <ul>
+            <li>Templates :
+                Created required HTML files for frontend. Imported thymeleaf namespace. Used bootstrap3 for enhanced design.
+                Used ${} for collecting data, @{} for api links, *{} for field names or errors.</li>
+            <li>Static:
+                Provided required image files in this folder.</li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <h2 class="text-center">Run the application and in browser navigate to http://localhost:8080</h2>
+</div>
+</body>
+</html>
